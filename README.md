@@ -1,161 +1,58 @@
-# MobileBERT_project
+# MobileBERT를 활용한 영화 리뷰 분석 프로젝트
 
-import torch
-import pandas as pd
-import numpy as np
-from sklearn.model_selection import train_test_split
-from transformers import get_linear_schedule_with_warmup, logging
-from transformers import MobileBertForSequenceClassification, MobileBertTokenizer
-from torch.utils.data import TensorDataset, DataLoader, RandomSampler, SequentialSampler
-from tqdm import tqdm
-from transformers.models.cvt.convert_cvt_original_pytorch_checkpoint_to_pytorch import attention
-
-# 0. GPU 있는지 확인, 없는 경우에는 CPU로 구동됨
-GPU = torch.cuda.is_available()
-device = torch.device("cuda" if GPU else "cpu")
-print("Using device: ", device)
-
-# 1. 학습 시 경고 메시지 제거
-logging.set_verbosity_error()
-
-# 2. 데이터 확인
-path = "imdb_reviews_sample.csv"
-df = pd.read_csv(path, encoding="cp949")
-data_X = list(df["Text"].values)
-labels = df["Sentiment"].values
-print("리뷰 문장 : ", data_X[:5]);
-print("긍정/부정:", labels[:5])
-
-# 3. 텍스트를 토큰으로 나눔 (토큰화)
-tokenizer = MobileBertTokenizer.from_pretrained('mobilebert_uncased', do_lower_case=True)
-inputs = tokenizer(data_X, truncation=True, max_length=256, add_special_tokens=True, padding="max_length")
-input_ids = inputs['input_ids']
-attention_mask = inputs['attention_mask']
-num_to_print = 3
-print("\n ### 토큰화결과 샘플###")
-for j in range(num_to_print):
-    print(f"\n{j + 1}번째 데이터")
-    print("데이터 : ", data_X[j])
-    print("토큰 : ", input_ids[j])
-    print("어텐션 마스크 : ", attention_mask[j])
-
-# 4. 학습용 및 검증용 데이터셋 분리 (scikit learn에 있는 train_test_split 함수 사용, ramdom_state는 반드시 일치시킬 것)
-train, validation, train_y, validation_y = train_test_split(input_ids, labels, test_size=0.2, random_state=2025)
-train_mask, validation_mask, _, _ = train_test_split(attention_mask, labels, test_size=0.2, random_state=2025)
-
-# 5. MobileBERT 에 영화 리뷰 데이터를 Finetuning하기 위한 데이터 설정
-# batch size는 한번에 학습하는 데이터의 양
-batch_size = 8
-
-# 학습용 데이터로더 구현 (torch tensor)
-train_inputs = torch.tensor(train)
-train_labels = torch.tensor(train_y)
-train_masks = torch.tensor(train_mask)
-train_data = TensorDataset(train_inputs, train_masks, train_labels)
-train_sampler = RandomSampler(train_data)
-train_dataloader = DataLoader(train_data, sampler=train_sampler, batch_size=batch_size)
-
-# 검증용 데이터로더 구현
-
-validation_inputs = torch.tensor(validation)
-validation_labels = torch.tensor(validation_y)
-validation_masks = torch.tensor(validation_mask)
-validation_data = TensorDataset(validation_inputs, validation_masks, validation_labels)
-validation_sampler = SequentialSampler(validation_data)
-validation_dataloader = DataLoader(validation_data, sampler=validation_sampler, batch_size=batch_size)
-
-model = MobileBertForSequenceClassification.from_pretrained('mobilebert_uncased', num_labels=2)
-model.to(device)
-optimizer = torch.optim.Adam(model.parameters(), lr=2e-5, eps=1e-8)
-epochs = 4
-scheduler = get_linear_schedule_with_warmup(optimizer,
-                                            num_warmup_steps=0,
-                                            num_training_steps=len(train_dataloader) * epochs)
-# 7.학습 (loss), 검증(train accuracy, validation accuracy)
-epoch_results = []
-
-for e in range(epochs):
-    # 학습 루프
-    model.train()
-    total_train_loss = 0
-
-    progress_bar = tqdm(train_dataloader, desc=f"Training Epoch {e + 1}", leave=True)
-    for batch in progress_bar:
-        batch_ids, batch_mask, batch_labels = batch
-
-        batch_ids = batch_ids.to(device)
-        batch_mask = batch_mask.to(device)
-        batch_labels = batch_labels.to(device)
-
-        model.zero_grad()
-
-        # 앞먹임 : forward pass
-        output = model(batch_ids, attention_mask=batch_mask, labels=batch_labels)
-        loss = output.loss
-        total_train_loss += loss.item()
-
-        # 역전파 : backward pass
-        loss.backward()
-        torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
-        optimizer.step()
-        scheduler.step()
-
-        progress_bar.set_postfix({'loss': loss.item()})
-
-    # 학습 데이터셋에 대한 평균 손실값 계산
-    avg_train_loss = total_train_loss / len(train_dataloader)
-
-    # 학습 데이터셋에 대한 정확도 (accuracy) 계산
-    model.eval()
-    train_pred = []
-    train_true = []
-
-    for batch in tqdm(train_dataloader, desc=f"Evaluation Train Epoch {e + 1}", leave=True):
-        batch_ids, batch_mask, batch_labels = batch
-
-        batch_ids = batch_ids.to(device)
-        batch_mask = batch_mask.to(device)
-        batch_lables = batch_labels.to(device)
-
-        with torch.no_grad():
-            output = model(batch_ids, attention_mask=batch_mask)
-        logits = output.logits
-        pred = torch.argmax(logits, dim=1)
-        train_pred.extend(pred.cpu().numpy())
-        train_true.extend(batch_labels.cpu().numpy())
-
-    train_accuracy = np.sum(np.array(train_pred) == np.array(train_true)) / len(train_pred)
-
-    # 검증 데이터셋에 대한 정확도(accuracy) 계산
-    val_pred = []
-    val_true = []
-
-    for batch in tqdm(validation_dataloader, desc=f"Evaluation validation Epoch {e + 1}", leave=True):
-        batch_ids, batch_mask, batch = batch
-
-        batch_ids = batch_ids.to(device)
-        batch_mask = batch_mask.to(device)
-        batch_labels = batch_labels.to(device)
-
-        with torch.no_grad():
-            output = model(batch_ids, attention_mask=batch_mask)
-        logits = output.logits
-        pred = torch.argmax(logits, dim=1)
-        val_pred.extend(pred.cpu().numpy())
-        val_true.extend(batch_labels.cpu().numpy())
-
-    val_accuracy = np.sum(np.array(val_pred) == np.array(val_true)) / len(val_pred)
-
-    epoch_results.append((avg_train_loss, train_accuracy, val_accuracy))
+-------------------------------------------------------------------
+프로젝트를 표현하는 이미지를 한 장 넣으면 좋음
 
 
-# 8.학습 종료후 epoch별 학습 경과 및 검증 정확도 출력
-for idx, (loss, train_acc, val_acc) in enumerate(epoch_results, start=1):
-    print(
-        f"Epoch {idx}: Train loss: {loss:.4f}, Train Accuracy:{train_acc:.4f}, Validation Accuracy: {val_acc:.4f}")
+###1. 개요
+작성방향 : 왜 이문제를 해결하고자 하는가? 이 문제를 해결하는 것이 어떠한 의미가 있는가? 어떤것을 확인하고 싶은가?
 
-# 9. 모델 저장
-print("\n### 모델 저장 ###")
-save_path = "mobilebert_custom_model_imdb"
-model.save_pretrained(save_path + '.pt')
-print("모델 저장 완료")
+영화는 가장 전형적이고 보편적인 문화화동 중 하나로, 가장 영향력있는 콘텐츠 중 하나이다. 디지털 시대에 접어들어서는 다양한
+영화 리뷰 플랫폼이 존재하고, 이 리뷰의 평가가 영화의 흥행과도 직결되는 척도로 활용되고 있다.
+
+이번 프로젝트에서는 SF영화의 최고봉으로 등극한 스타워즈 영화 시리즈에 대한 리뷰를 분석해보고자 한다.
+스타워즈는 ~~~소개 __> 스타워즈가 얼마나 성공한 영화인지에 대한 통계자료 (총 얼마를 벌었다든지)
+
+참고문헌 기준: 나무위키(X), 나무위키에서 참조하는 데이터(O 가능), 위키피디아(O)
+
+스타워즈 시리즈는 항상 성공만 했던 것은 아니다. 시리즈가 지속될 수록 넓어진 세계관과
+무리한 복선의 설정은 관객들로 하여금 수많은 추측을 부여함과 동시에 그에 따른 기대감도 켜져있는 상황이다.
+따라서 이번 프로젝트에서는 스타워즈 시리즈별 리뷰 데이터를 직접 수집하여
+리뷰의 긍정과 부정을 예측하고 부정적인 리뷰가 높은 영화에 대해서 이슈를 분석해 보고자 한다.
+
+##2. 데이터
+
+### Case1. 공개된 데이터 활용
+
+수집과 출처와 원본 데이터의 형태를 언급
+수집된 데이터가 너무 많다면, 특정한 관점(문제)에서 데이터를 필터링
+(필터링된) 데이터에 대한 EDA (아래항목에서 적절히 선택)
+총 데이터의 수
+긍정/부정, 5점 점수, 10점 점수 등 라벨링에 대한 분포
+문장 길이 분포
+각종 부가 정보에 대한 분포 (분류,시점)
+
+
+## 3.학습 데이터 구축
+총 데이터 수가 50,000건 이라고 한다면 이 중에서 10%~20%를 추출하여 학습 데이터를 만든다.
+학습 데이터의 구축의 핵심은 전체 데이터에서 일부를 그저 랜덤하게 추출하는 것이 아닌, 전테 데이터의 분포를 고려한 학습 데이터이어야
+일반화의 가능성이 높아진다. --> 예측 성능이 좋아진다.
+### Case2, 수집된 데이터 활용
+
+10% ~ 20% 추출에 대한 기준
+긍정이 70%(35,500), 부정 30%(15,000)
+(1안) 10%를 추출: 70%(3,500), 부정 30%(1,500)
+(2안) 10%를 추출: 50%(2,500), 부정 50%(2,500)
+추가 고려도 가능 (분류,시점)
+
+## 4. MobileBERT Finetuning(재학습, 미세조정) 결과
+
+-학습 데이터 전체의 수가 5,000건 이라면, 실제 학습을 할 떄는 검증데이터를 일부 추출해야한다.
+학습:검증은 8:2나 7:3 정도를 쓴다.
+-4,000:1,000 혹은 3,500:1,500으로 학습: 검증 데이터를 나누고
+-MobileBERT 를 학습시킨 후 training loss, training accuray & validation accuracy 두 개의 그래프 (x축 epoch)를 그리고값을 표로 제공한다.
+- 수집된 데이터가 있는 경우에는 전체 데이터셋에 inference하여 test accuracy 수치를 작성한다.
+- 직접 수집한 경우에는 라벨이 없으므로 문장 분류 예측 결과를 나타낸다. (라벨별로 데이터 분포를 말한다.)
+
+- ## 5. 결론 및 느낀점
+- 
