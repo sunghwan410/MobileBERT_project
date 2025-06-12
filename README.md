@@ -1,13 +1,13 @@
-# 📘 MobileBERT를 활용한 애니 리뷰 감정 분석 프로젝트  
+#  MobileBERT를 활용한 애니 리뷰 감정 분석 프로젝트  
 <p align="center">
   <img src="https://ifh.cc/g/8hOMNb.jpg" alt="Anime Banner" width="600"/>
 </p>
 
 ---
 
-## 🎯 프로젝트 개요
+##  프로젝트 개요
 
-> 디지털 시대에 접어들며 영화·애니메이션 리뷰는 콘텐츠 흥행의 핵심 지표가 되었습니다.  
+> 디지털 시대에 접어들며 애니메이션 리뷰는 콘텐츠 흥행의 핵심 지표가 되었습니다.  
 > 본 프로젝트는 다양한 애니메이션 리뷰 데이터를 기반으로 감정 분석 모델을 구축하여 다음을 목표로 합니다:
 
 - 리뷰 감정의 경향성 분석  
@@ -18,7 +18,7 @@
 
 ---
 
-## 📂 데이터셋 구축 및 번역 과정
+##  데이터셋 구축 및 번역 과정
 
 | 항목       | 내용 |
 |------------|------|
@@ -26,11 +26,12 @@
 | 🔢 총 리뷰 수 | 약 76,000건 |
 | 🧾 주요 컬럼 | `anime`, `text`, `rate` |
 | 🌍 언어     | 러시아어 |
-| 🌐 번역 도구 | Google Translator + `deep_translator` |
+| 🌐 번역 도구 | Google Translator |
 | ⚙️ 병렬 처리 | `anime.py`를 통해 멀티프로세싱 (최대 8코어) |
-| 🕒 번역 시간 | 약 3일 소요 |
-| 🧩 번역 병합 | `anime_sentiment_1.csv`로 통합, 누락 수동 보완 |
+| 🕒 번역 시간 | 약 2일 소요 |
 | 🧹 전처리    | `rate`가 유효하지 않거나 결측치 제거, 약 73,000건 유지 |
+<a href='https://ifh.cc/v-wsZgKG' target='_blank'><img src='https://ifh.cc/g/wsZgKG.png' border='0'></a>        <a href='https://ifh.cc/v-dBlDx5' target='_blank'><img src='https://ifh.cc/g/dBlDx5.png' border='0'></a>
+anime.py 파일에다 Google Translator로 번역하여 1000건씩 74개의 파일로 나눠 번역을 진행했습니다.
 
 ---
 
@@ -46,9 +47,9 @@
 
 ---
 
-## 🤖 MobileBERT Fine-tuning 결과
+##  MobileBERT Fine-tuning 결과
 
-### 🔧 모델 설정
+###  모델 설정
 
 | 항목 | 설정 |
 |------|------|
@@ -59,7 +60,7 @@
 | Batch size | 8 |
 | Epochs | 4 (3-class) / 10 (2-class) |
 
-### 📈 2진 분류 성능 예시
+###  2진 분류 성능 예시
 
 | Epoch | Train Loss | Val Accuracy |
 |-------|------------|---------------|
@@ -69,7 +70,7 @@
 
 ---
 
-## 🧪 Inference 및 분석
+##  Inference 및 분석
 
 - 전체 리뷰셋에 대해 감정 예측 수행  
 - 애니메이션별 긍정/부정 비율 계산  
@@ -77,7 +78,7 @@
 
 ---
 
-## 📊 감정 분석 시각화
+##  감정 분석 시각화
 
 ### ✅ 긍정 비율 기준 Top 5 애니
 
@@ -87,7 +88,7 @@
 - Violet Evergarden  
 - Mob Psycho 100
 
-### ⚠️ 긍정 비율 기준 Bottom 5 애니
+### ⚠️ 부정 비율 기준 Top 5 애니
 
 - Mars of Destruction  
 - Pupa  
