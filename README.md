@@ -30,8 +30,8 @@
 | ⚙️ 병렬 처리 | `anime.py`를 통해 멀티프로세싱 (최대 8코어) |
 | 🕒 번역 시간 | 약 2일 소요 |
 | 🧹 전처리    | `rate`가 유효하지 않거나 결측치 제거, 약 73,000건 유지 |
-<a href='https://ifh.cc/v-wsZgKG' target='_blank'><img src='https://ifh.cc/g/wsZgKG.png' border='0'></a>        <a href='https://ifh.cc/v-dBlDx5' target='_blank'><img src='https://ifh.cc/g/dBlDx5.png' border='0'></a>
-anime.py 파일에다 Google Translator로 번역하여 1000건씩 74개의 파일로 나눠 번역을 진행하여 translated.parts
+<a href='https://ifh.cc/v-wsZgKG' target='_blank'><img src='https://ifh.cc/g/wsZgKG.png' border='0'></a>          <a href='https://ifh.cc/v-dBlDx5' target='_blank'><img src='https://ifh.cc/g/dBlDx5.png' border='0'></a>
+anime.py 파일에다 Google Translator로 번역하여 1000건씩 74개의 파일로 나눠 번역을 진행하여 translated.parts 폴더에 저장했습니다
 
 ---
 
