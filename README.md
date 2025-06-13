@@ -82,19 +82,19 @@ anime.py 파일에다 Google Translator로 번역하여 1000건씩 74개의 파�
 
 ### ✅ 긍정 비율 기준 Top 5 애니
 
-- Your Name  
-- Spirited Away  
-- Attack on Titan  
-- Violet Evergarden  
-- Mob Psycho 100
+- Your Name (너의 이름은) <a href='https://ifh.cc/v-TlKfqw' target='_blank'><img src='https://ifh.cc/g/TlKfqw.jpg' border='0'></a>
+- Spirited Away (센과 치히로의 행방불명) <a href='https://ifh.cc/v-mq0dDq' target='_blank'><img src='https://ifh.cc/g/mq0dDq.jpg' border='0'></a>
+- Attack on Titan (진격의 거인) <a href='https://ifh.cc/v-Hr19Bs' target='_blank'><img src='https://ifh.cc/g/Hr19Bs.jpg' border='0'></a>
+- Violet Evergarden (바이올렛 에버가든) <a href='https://ifh.cc/v-RF5cxl' target='_blank'><img src='https://ifh.cc/g/RF5cxl.jpg' border='0'></a>
+- Mob Psycho 100 (모브 사이코 100) <a href='https://ifh.cc/v-f4ngWy' target='_blank'><img src='https://ifh.cc/g/f4ngWy.jpg' border='0'></a>
 
 ### ⚠️ 부정 비율 기준 Top 5 애니
 
-- Mars of Destruction  
-- Pupa  
-- School Days  
-- Vampire Holmes  
-- Boku no Pico
+- Mars of Destruction (파괴된 마스)  <a href='https://ifh.cc/v-VsDVSk' target='_blank'><img src='https://ifh.cc/g/VsDVSk.jpg' border='0'></a>
+- Pupa (퓨파) <a href='https://ifh.cc/v-qtZgq1' target='_blank'><img src='https://ifh.cc/g/qtZgq1.jpg' border='0'></a>
+- School Days (스쿨 데이즈) <a href='https://ifh.cc/v-00x0Zb' target='_blank'><img src='https://ifh.cc/g/00x0Zb.jpg' border='0'></a>
+- Vampire Holmes (뱀파이어 홈즈) <a href='https://ifh.cc/v-Zdmk8t' target='_blank'><img src='https://ifh.cc/g/Zdmk8t.jpg' border='0'></a>
+- Boku no Pico (보쿠 노 피코) <a href='https://ifh.cc/v-pdlPJM' target='_blank'><img src='https://ifh.cc/g/pdlPJM.png' border='0'></a>
 
 > 결과 저장: `top_bottom5_anime_reviews.csv`
 
