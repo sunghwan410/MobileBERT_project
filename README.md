@@ -33,8 +33,8 @@
 | 🧹 전처리    | `rate`가 유효하지 않거나 결측치 제거, 약 73,000건 유지 |
 
 <p align="center">
-  <img src="https://ifh.cc/g/wsZgKG.png" alt="Translation Process 1" width="300" style="margin-right: 10px;"/>
-  <img src="https://ifh.cc/g/dBlDx5.png" alt="Translation Process 2" width="300"/>
+  <img src="https://ifh.cc/g/wsZgKG.png" alt="Translation Process 1" width="300" height="200" style="margin-right: 10px; object-fit: cover;"/>
+  <img src="https://ifh.cc/g/dBlDx5.png" alt="Translation Process 2" width="300" height="200" style="margin-right: 10px; object-fit: cover;"/>
 </p>
 
 > `anime.py`를 통해 Google Translator로 1,000건씩 74개 파일로 나누어 번역을 진행하고, `translated.parts` 폴더에 저장했습니다.
@@ -88,13 +88,13 @@
 
 ### ✅ 긍정 비율 기준 Top 5 애니
 
-<p align="center">
-  <img src="https://ifh.cc/g/TlKfqw.jpg" alt="Your Name" width="150" style="margin: 5px;"/>
-  <img src="https://ifh.cc/g/mq0dDq.jpg" alt="Spirited Away" width="150" style="margin: 5px;"/>
-  <img src="https://ifh.cc/g/Hr19Bs.jpg" alt="Attack on Titan" width="150" style="margin: 5px;"/>
-  <img src="https://ifh.cc/g/RF5cxl.jpg" alt="Violet Evergarden" width="150" style="margin: 5px;"/>
-  <img src="https://ifh.cc/g/f4ngWy.jpg" alt="Mob Psycho 100" width="150" style="margin: 5px;"/>
-</p>
+<div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 10px;">
+  <img src="https://ifh.cc/g/TlKfqw.jpg" alt="Your Name" style="width: 150px; height: 225px; object-fit: cover;"/>
+  <img src="https://ifh.cc/g/mq0dDq.jpg" alt="Spirited Away" style="width: 150px; height: 225px; object-fit: cover;"/>
+  <img src="https://ifh.cc/g/Hr19Bs.jpg" alt="Attack on Titan" style="width: 150px; height: 225px; object-fit: cover;"/>
+  <img src="https://ifh.cc/g/RF5cxl.jpg" alt="Violet Evergarden" style="width: 150px; height: 225px; object-fit: cover;"/>
+  <img src="https://ifh.cc/g/f4ngWy.jpg" alt="Mob Psycho 100" style="width: 150px; height: 225px; object-fit: cover;"/>
+</div>
 
 1. **Your Name (너의 이름은)**  
 2. **Spirited Away (센과 치히로의 행방불명)**  
@@ -104,13 +104,13 @@
 
 ### ⚠️ 부정 비율 기준 Top 5 애니
 
-<p align="center">
-  <img src="https://ifh.cc/g/VsDVSk.jpg" alt="Mars of Destruction" width="150" style="margin: 5px;"/>
-  <img src="https://ifh.cc/g/qtZgq1.jpg" alt="Pupa" width="150" style="margin: 5px;"/>
-  <img src="https://ifh.cc/g/00x0Zb.jpg" alt="School Days" width="150" style="margin: 5px;"/>
-  <img src="https://ifh.cc/g/Zdmk8t.jpg" alt="Vampire Holmes" width="150" style="margin: 5px;"/>
-  <img src="https://ifh.cc/g/pdlPJM.png" alt="Boku no Pico" width="150" style="margin: 5px;"/>
-</p>
+<div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 10px;">
+  <img src="https://ifh.cc/g/VsDVSk.jpg" alt="Mars of Destruction" style="width: 150px; height: 225px; object-fit: cover;"/>
+  <img src="https://ifh.cc/g/qtZgq1.jpg" alt="Pupa" style="width: 150px; height: 225px; object-fit: cover;"/>
+  <img src="https://ifh.cc/g/00x0Zb.jpg" alt="School Days" style="width: 150px; height: 225px; object-fit: cover;"/>
+  <img src="https://ifh.cc/g/Zdmk8t.jpg" alt="Vampire Holmes" style="width: 150px; height: 225px; object-fit: cover;"/>
+  <img src="https://ifh.cc/g/pdlPJM.png" alt="Boku no Pico" style="width: 150px; height: 225px; object-fit: cover;"/>
+</div>
 
 1. **Mars of Destruction (파괴된 마스)**  
 2. **Pupa (퓨파)**  
@@ -142,4 +142,32 @@
 
 - **RuBERT** 기반 러시아어 직접 감정 분석 모델 실험  
 - 추천 시스템/감정 기반 큐레이션 적용  
-- 장르/연도 기반 감정 트렌
+- 장르/연도 기반 감정 트렌드 분석  
+
+---
+
+## 🛠️ 개발 환경 및 라이브러리
+
+| 항목 | 버전 |
+|------|------|
+| Python | 3.9 |
+| PyTorch | 1.12.1 |
+| Transformers | 4.21.2 |
+| Pandas | 1.4.4 |
+| NumPy | 1.24.3 |
+| Scikit-learn | 1.2.2 |
+| IDE | PyCharm / JupyterLab |
+
+---
+
+## 🔗 참고 링크
+
+- [MobileBERT on HuggingFace](https://huggingface.co/google/mobilebert-uncased)  
+- [deep_translator 패키지](https://pypi.org/project/deep-translator/)  
+- `anime.py`: 병렬 번역 처리 코드  
+- 시각화 도구: `matplotlib`, `seaborn`
+
+---
+
+📢 **리뷰 기반 감정 분석은 사용자 만족도와 직결됩니다.**  
+🎯 **AI 기반 감정 분석 시스템은 이제 선택이 아닌 필수입니다!**
