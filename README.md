@@ -33,8 +33,8 @@
 | 🧹 전처리    | `rate`가 유효하지 않거나 결측치 제거, 약 73,000건 유지 |
 
 <p align="center">
-  <img src="https://ifh.cc/g/wsZgKG.png" alt="Translation Process 1" width="300" height="200" style="margin-right: 10px; object-fit: cover;"/>
-  <img src="https://ifh.cc/g/dBlDx5.png" alt="Translation Process 2" width="300" height="200" style="margin-right: 10px; object-fit: cover;"/>
+  <img src="https://ifh.cc/g/wsZgKG.png" alt="Translation Process 1" width="300" style="margin-right: 10px;"/>
+  <img src="https://ifh.cc/g/dBlDx5.png" alt="Translation Process 2" width="300"/>
 </p>
 
 > `anime.py`를 통해 Google Translator로 1,000건씩 74개 파일로 나누어 번역을 진행하고, `translated.parts` 폴더에 저장했습니다.
