@@ -109,7 +109,7 @@
   <img src="https://ifh.cc/g/qtZgq1.jpg" alt="Pupa" style="width: 150px; height: 225px; object-fit: cover;"/>
   <img src="https://ifh.cc/g/00x0Zb.jpg" alt="School Days" style="width: 150px; height: 225px; object-fit: cover;"/>
   <img src="https://ifh.cc/g/Zdmk8t.jpg" alt="Vampire Holmes" style="width: 150px; height: 225px; object-fit: cover;"/>
-  <img src="https://ifh.cc/g/pdlPJM.png" alt="Boku no Pico" style="width: 150px; height: 225px; object-fit: cover;"/>
+  <img src="https://ifh.cc/g/Dp12AN.jpg" alt="Boku no Pico" style="width: 150px; height: 225px; object-fit: cover;"/>
 </div>
 
 1. **Mars of Destruction (파괴된 마스)**  
