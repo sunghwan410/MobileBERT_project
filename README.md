@@ -78,4 +78,59 @@ Google Translator API를 사용하여 리뷰 1,000건씩 74개 파일로 나눠 
 
 ## 🔍 Inference 및 분석
 
-전체 리뷰셋에 대해 감정 예
+전체 리뷰셋에 대해 감정 예측을 수행했다.  
+애니메이션별 긍정/부정 비율을 계산했고, 결과는 `top_bottom5_anime_reviews.csv`에 저장했다.
+
+---
+
+## 📈 감정 분석 시각화
+
+### ✅ 긍정 비율 기준 Top 5 애니
+
+<div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 10px;">
+  <img src="https://ifh.cc/g/TlKfqw.jpg" alt="Your Name" style="width: 150px; height: 225px; object-fit: cover;"/>
+  <img src="https://ifh.cc/g/mq0dDq.jpg" alt="Spirited Away" style="width: 150px; height: 225px; object-fit: cover;"/>
+  <img src="https://ifh.cc/g/Hr19Bs.jpg" alt="Attack on Titan" style="width: 150px; height: 225px; object-fit: cover;"/>
+  <img src="https://ifh.cc/g/RF5cxl.jpg" alt="Violet Evergarden" style="width: 150px; height: 225px; object-fit: cover;"/>
+  <img src="https://ifh.cc/g/f4ngWy.jpg" alt="Mob Psycho 100" style="width: 150px; height: 225px; object-fit: cover;"/>
+</div>
+
+1. **Your Name (너의 이름은)**  
+2. **Spirited Away (센과 치히로의 행방불명)**  
+3. **Attack on Titan (진격의 거인)**  
+4. **Violet Evergarden (바이올렛 에버가든)**  
+5. **Mob Psycho 100 (모브 사이코 100)**  
+
+### ⚠️ 부정 비율 기준 Top 5 애니
+
+<div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 10px;">
+  <img src="https://ifh.cc/g/VsDVSk.jpg" alt="Mars of Destruction" style="width: 150px; height: 225px; object-fit: cover;"/>
+  <img src="https://ifh.cc/g/qtZgq1.jpg" alt="Pupa" style="width: 150px; height: 225px; object-fit: cover;"/>
+  <img src="https://ifh.cc/g/00x0Zb.jpg" alt="School Days" style="width: 150px; height: 225px; object-fit: cover;"/>
+  <img src="https://ifh.cc/g/Zdmk8t.jpg" alt="Vampire Holmes" style="width: 150px; height: 225px; object-fit: cover;"/>
+  <img src="https://ifh.cc/g/Dp12AN.jpg" alt="Boku no Pico" style="width: 150px; height: 225px; object-fit: cover;"/>
+</div>
+
+1. **Mars of Destruction (파괴된 마스)**  
+2. **Pupa (퓨파)**  
+3. **School Days (스쿨 데이즈)**  
+4. **Vampire Holmes (뱀파이어 홈즈)**  
+5. **Boku no Pico (보쿠 노 피코)**  
+
+---
+
+## 💻 주요 코드 설명
+
+| 파일명 | 설명 |
+|--------|------|
+| anime.py | 멀티프로세싱 기반으로 74개 CSV 파일을 번역하고 통합했다. |
+| finetune_mobilebert_anime.py | 학습 입력, 전처리, 학습, 저장까지 자동화했다. |
+| inference_mobilebert_anime.py | 전체 데이터셋에 감정 예측을 수행하고 시각화용 통계를 생성했다. |
+
+---
+
+## 🔚 결론 및 향후 계획
+
+- 번역 품질과 전처리가 NLP 모델 성능에 큰 영향을 주었다.  
+- 중립 감정은 해석이 모호하여 이진 분류의 성능이 더 우수했다.  
+- 정확도 85% 이상을 달성하여 실무
