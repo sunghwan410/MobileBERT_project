@@ -1,59 +1,50 @@
-# MobileBERT를 활용한 애니 리뷰 감정 분석 프로젝트  
+# 📘 MobileBERT를 활용한 애니메이션 리뷰 감정 분석
 
 <p align="center">
   <img src="https://ifh.cc/g/8hOMNb.jpg" alt="Anime Banner" width="600"/>
 </p>
 
----
-
 ## 📖 프로젝트 개요
 
-> 디지털 시대에 접어들며 애니메이션 리뷰는 콘텐츠 흥행의 핵심 지표가 되었습니다.  
-> 본 프로젝트는 다양한 애니메이션 리뷰 데이터를 기반으로 감정 분석 모델을 구축하여 다음을 목표로 합니다:
+애니메이션 리뷰는 콘텐츠 흥행의 핵심 지표이다.  
+본 프로젝트는 애니메이션 리뷰 데이터를 기반으로 감정 분석 모델을 구축하였으며, 주요 목표는 다음과 같다:
 
-- 리뷰 감정의 경향성 분석  
-- 인기 애니메이션 간 평판 비교  
-- 추천 시스템 또는 큐레이션 기반 활용 가능성 검토  
+- 리뷰 감정의 전반적인 흐름 분석  
+- 애니메이션 간 평판 비교  
+- 추천 시스템 및 큐레이션에의 활용 가능성 탐색  
 
-> 리뷰 원문은 러시아어이며, 영어로 번역 후 **MobileBERT** 모델을 파인튜닝하여 감정 분류(Positive / Neutral / Negative)를 수행합니다.
+리뷰 원문은 러시아어이며, 영어로 번역 후 MobileBERT를 파인튜닝하여 감정 분류(Positive / Neutral / Negative)를 수행하였다.
 
 ---
 
-## 📊 데이터셋 구축 및 번역 과정
+## 📊 데이터셋 및 번역 과정
 
 | 항목       | 내용 |
 |------------|------|
-| 📄 원본 파일 | Anime_reviews_RU.csv |
-| 🔢 총 리뷰 수 | 약 76,000건 |
-| 🧾 주요 컬럼 | `anime`, `text`, `rate` |
-| 🌍 언어     | 러시아어 |
-| 🌐 번역 도구 | Google Translator |
-| ⚙️ 병렬 처리 | `anime.py`를 통해 멀티프로세싱 (최대 8코어) |
-| 🕒 번역 시간 | 약 2일 소요 |
-| 🧹 전처리    | `rate`가 유효하지 않거나 결측치 제거, 약 73,000건 유지 |
+| 원본 파일 | Anime_reviews_RU.csv |
+| 총 리뷰 수 | 약 76,000건 |
+| 주요 컬럼 | `anime`, `text`, `rate` |
+| 언어 | 러시아어 |
+| 번역 도구 | Google Translator |
+| 병렬 처리 | `anime.py`로 멀티프로세싱 (최대 8코어) |
+| 번역 시간 | 약 2일 소요 |
+| 전처리 | 유효하지 않거나 결측된 `rate` 제거 (약 73,000건 유지) |
 
-<p align="center">
-  <img src="https://ifh.cc/g/wsZgKG.png" alt="Translation Process 1" width="300" style="margin-right: 10px;"/>
-  <img src="https://ifh.cc/g/dBlDx5.png" alt="Translation Process 2" width="300"/>
-</p>
-
-> `anime.py`를 통해 Google Translator로 1,000건씩 74개 파일로 나누어 번역을 진행하고, `translated.parts` 폴더에 저장했습니다.
+> 리뷰를 1,000건 단위로 분할하여 74개 파일로 번역하였으며, 결과는 `translated.parts` 폴더에 저장하였다.
 
 ---
 
-## 🧠 학습 데이터 구성 방법
+## 🧠 학습 데이터 구성
 
 | 기준 | 내용 |
 |------|------|
-| 🔍 추출 비율 | 전체의 약 4% (약 3,000건) 샘플링 |
-| ⚖️ 클래스 균형 | `stratify` 샘플링, Positive/Negative 비율 유지 |
-| 🧪 분할 | 학습:검증 = 80:20 |
-
-> 전체 분포를 반영하며, 제한된 자원에서도 일반화 성능을 확보했습니다.
+| 샘플링 | 전체의 약 4% (약 3,000건) |
+| 클래스 균형 | `stratify` 기반 샘플링 |
+| 학습/검증 분할 | 80:20 비율로 분리 |
 
 ---
 
-## 🚀 MobileBERT Fine-tuning 결과
+## 🚀 MobileBERT Fine-tuning
 
 ### 모델 설정
 
@@ -61,64 +52,50 @@
 |------|------|
 | Pretrained | `google/mobilebert-uncased` |
 | Input length | 256 tokens |
-| Class 수 | 3개 또는 2개 (실험 기준) |
-| Optimizer | AdamW (`lr=2e-5`) |
+| 클래스 수 | 3개 또는 2개 |
+| Optimizer | AdamW (lr=2e-5) |
 | Batch size | 8 |
 | Epochs | 4 (3-class) / 10 (2-class) |
 
-### 2진 분류 성능 예시
+### 2-class 분류 결과 예시
 
 | Epoch | Train Loss | Val Accuracy |
-|-------|------------|---------------|
-|   1   | 0.6228     | 0.7733        |
-|   2   | 0.3996     | 0.8400        |
-|   3   | 0.2624     | **0.8533** ✅ |
+|-------|------------|--------------|
+| 1     | 0.6228     | 0.7733       |
+| 2     | 0.3996     | 0.8400       |
+| 3     | 0.2624     | **0.8533** ✅ |
 
 ---
 
-## 🔍 Inference 및 분석
+## 🔍 감정 예측 및 분석
 
 - 전체 리뷰셋에 대해 감정 예측 수행  
 - 애니메이션별 긍정/부정 비율 계산  
-- `top_bottom5_anime_reviews.csv` 생성  
+- 결과 파일: `top_bottom5_anime_reviews.csv`
 
 ---
 
-## 📈 감정 분석 시각화
+## 📈 시각화 예시
 
-### ✅ 긍정 비율 기준 Top 5 애니
+### ✅ 긍정 비율 상위 Top 5
 
-<div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 10px;">
-  <img src="https://ifh.cc/g/TlKfqw.jpg" alt="Your Name" style="width: 150px; height: 225px; object-fit: cover;"/>
-  <img src="https://ifh.cc/g/mq0dDq.jpg" alt="Spirited Away" style="width: 150px; height: 225px; object-fit: cover;"/>
-  <img src="https://ifh.cc/g/Hr19Bs.jpg" alt="Attack on Titan" style="width: 150px; height: 225px; object-fit: cover;"/>
-  <img src="https://ifh.cc/g/RF5cxl.jpg" alt="Violet Evergarden" style="width: 150px; height: 225px; object-fit: cover;"/>
-  <img src="https://ifh.cc/g/f4ngWy.jpg" alt="Mob Psycho 100" style="width: 150px; height: 225px; object-fit: cover;"/>
-</div>
+| 순위 | 애니메이션 |
+|------|------------|
+| 1 | Your Name (너의 이름은) |
+| 2 | Spirited Away (센과 치히로의 행방불명) |
+| 3 | Attack on Titan (진격의 거인) |
+| 4 | Violet Evergarden (바이올렛 에버가든) |
+| 5 | Mob Psycho 100 (모브 사이코 100) |
 
-1. **Your Name (너의 이름은)**  
-2. **Spirited Away (센과 치히로의 행방불명)**  
-3. **Attack on Titan (진격의 거인)**  
-4. **Violet Evergarden (바이올렛 에버가든)**  
-5. **Mob Psycho 100 (모브 사이코 100)**  
+### ⚠️ 부정 비율 상위 Top 5
 
-### ⚠️ 부정 비율 기준 Top 5 애니
-
-<div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 10px;">
-  <img src="https://ifh.cc/g/VsDVSk.jpg" alt="Mars of Destruction" style="width: 150px; height: 225px; object-fit: cover;"/>
-  <img src="https://ifh.cc/g/qtZgq1.jpg" alt="Pupa" style="width: 150px; height: 225px; object-fit: cover;"/>
-  <img src="https://ifh.cc/g/00x0Zb.jpg" alt="School Days" style="width: 150px; height: 225px; object-fit: cover;"/>
-  <img src="https://ifh.cc/g/Zdmk8t.jpg" alt="Vampire Holmes" style="width: 150px; height: 225px; object-fit: cover;"/>
-  <img src="https://ifh.cc/g/Dp12AN.jpg" alt="Boku no Pico" style="width: 150px; height: 225px; object-fit: cover;"/>
-</div>
-
-1. **Mars of Destruction (파괴된 마스)**  
-2. **Pupa (퓨파)**  
-3. **School Days (스쿨 데이즈)**  
-4. **Vampire Holmes (뱀파이어 홈즈)**  
-5. **Boku no Pico (보쿠 노 피코)**  
-
-> 결과 저장: `top_bottom5_anime_reviews.csv`
+| 순위 | 애니메이션 |
+|------|------------|
+| 1 | Mars of Destruction |
+| 2 | Pupa |
+| 3 | School Days |
+| 4 | Vampire Holmes |
+| 5 | Boku no Pico |
 
 ---
 
@@ -126,27 +103,27 @@
 
 | 파일명 | 설명 |
 |--------|------|
-| `anime.py` | 멀티프로세싱 기반 74개 CSV 파일 번역 및 통합 |
-| `finetune_mobilebert_anime.py` | 학습 자동화 (입력, 로딩, 학습, 저장 포함) |
-| `inference_mobilebert_anime.py` | 전체 데이터셋 감정 예측 및 시각화용 통계 생성 |
+| `anime.py` | 멀티프로세싱 기반 번역 자동화 |
+| `finetune_mobilebert_anime.py` | 학습 전체 프로세스 처리 |
+| `inference_mobilebert_anime.py` | 예측 및 결과 통계/시각화 처리 |
 
 ---
 
 ## 🔚 결론 및 향후 계획
 
-- 번역 품질 및 전처리가 NLP 성능에 직접적 영향  
-- 중립 감정은 모호하여 이진 분류 성능이 더 우수  
-- 정확도 85% 이상 도달 시 실무 적용 가능성 확인
+- 번역 품질과 전처리 수준이 모델 성능에 큰 영향을 미쳤다.  
+- 중립 감정은 해석이 모호하여 2-class 분류의 성능이 상대적으로 더 높았다.  
+- 정확도 85% 이상으로 실무 활용 가능성을 확인하였다.
 
-### 🔮 향후 방향
+### 향후 방향
 
-- **RuBERT** 기반 러시아어 직접 감정 분석 모델 실험  
-- 추천 시스템/감정 기반 큐레이션 적용  
-- 장르/연도 기반 감정 트렌드 분석  
+- 러시아어 기반 RuBERT 감정 분석 실험  
+- 감정 기반 큐레이션/추천 시스템 개발  
+- 장르 및 연도 기반 감정 트렌드 분석
 
 ---
 
-## 🛠️ 개발 환경 및 라이브러리
+## 🛠️ 개발 환경
 
 | 항목 | 버전 |
 |------|------|
@@ -164,10 +141,10 @@
 
 - [MobileBERT on HuggingFace](https://huggingface.co/google/mobilebert-uncased)  
 - [deep_translator 패키지](https://pypi.org/project/deep-translator/)  
-- `anime.py`: 병렬 번역 처리 코드  
+- 번역 코드: `anime.py`  
 - 시각화 도구: `matplotlib`, `seaborn`
 
 ---
 
-📢 **리뷰 기반 감정 분석은 사용자 만족도와 직결됩니다.**  
-🎯 **AI 기반 감정 분석 시스템은 이제 선택이 아닌 필수입니다!**
+📢 리뷰 기반 감정 분석은 사용자 만족도와 직결된다.  
+🎯 AI 기반 감정 분석 시스템은 선택이
