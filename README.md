@@ -133,4 +133,38 @@ Google Translator API를 사용하여 리뷰 1,000건씩 74개 파일로 나눠 
 
 - 번역 품질과 전처리가 NLP 모델 성능에 큰 영향을 주었다.  
 - 중립 감정은 해석이 모호하여 이진 분류의 성능이 더 우수했다.  
-- 정확도 85% 이상을 달성하여 실무
+- 정확도 85% 이상을 달성하여 실무 적용 가능성을 확인했다.
+
+### 🔮 향후 계획
+
+- **RuBERT** 기반 러시아어 직접 감정 분석 모델을 실험할 예정이다.  
+- 추천 시스템 및 감정 기반 큐레이션에 적용할 계획이다.  
+- 장르별/연도별 감정 트렌드 분석을 수행할 예정이다.  
+
+---
+
+## 🛠️ 개발 환경 및 라이브러리
+
+| 항목 | 버전 |
+|------|------|
+| Python | 3.9 |
+| PyTorch | 1.12.1 |
+| Transformers | 4.21.2 |
+| Pandas | 1.4.4 |
+| NumPy | 1.24.3 |
+| Scikit-learn | 1.2.2 |
+| IDE | PyCharm / JupyterLab |
+
+---
+
+## 🔗 참고 링크
+
+- [MobileBERT on HuggingFace](https://huggingface.co/google/mobilebert-uncased)  
+- [deep_translator 패키지](https://pypi.org/project/deep-translator/)  
+- `anime.py`: 병렬 번역 처리 코드  
+- 시각화 도구: `matplotlib`, `seaborn`
+
+---
+
+📢 리뷰 기반 감정 분석은 사용자 만족도와 직결된다.  
+🎯 AI 기반 감정 분석 시스템은 이제 선택이 아닌 필수이다.
