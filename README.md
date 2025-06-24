@@ -52,14 +52,9 @@ Google Translator API를 사용하여 리뷰 1,000건씩 74개 파일로 나눠 
 적용 함수	translate_parallel() 함수로 일괄 번역
 예외 처리	실패 시 원문 유지하여 전체 중단 방지
 
-<a href='https://ifh.cc/v-jRh9BZ' target='_blank'><img src='https://ifh.cc/g/jRh9BZ.png' border='0'></a>
-<a href='https://ifh.cc/v-0az1gf' target='_blank'><img src='https://ifh.cc/g/0az1gf.png' border='0'></a>
+
 # 병렬 번역 함수 예시
-def translate_text(text):
-    try:
-        return GoogleTranslator(source='ru', target='en').translate(text)
-    except Exception:
-        return text  # 번역 실패 시 원문 유지
+<a href='https://ifh.cc/v-jRh9BZ' target='_blank'><img src='https://ifh.cc/g/jRh9BZ.png' border='0'></a>
 멀티프로세싱으로 병렬 번역을 처리하여 속도를 크게 향상시켰고, 예외 처리로 안정성도 확보했다.
 
 ⏱️ 처리 성능 및 속도
