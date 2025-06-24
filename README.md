@@ -37,7 +37,7 @@
   <img src="https://ifh.cc/g/dBlDx5.png" alt="Translation Process 2" width="300"/>
 </p>
 
-Google Translator API를 사용하여 리뷰 1,000건씩 74개 파일로 나눠 번역을 진행했고, 결과는 `translated.parts` 폴더에 저장했다.
+Google Translator API를 사용하여 리뷰 1,000건씩 74개 파일로 나눠 번역을 진행했고, 결과는 translated.parts 폴더에 저장했다.
 
 ---
 📦 러시아어 리뷰 번역 프로세스 상세 보고
@@ -108,71 +108,33 @@ Google Translator API는 쿼터 제한이 있어 딜레이가 발생할 수 있�
 
 ---
 
- 🎓 학습 데이터 구성 방법
+## 🚀 MobileBERT Fine-tuning 결과
 
-기준
+### 모델 설정
 
-내용
+| 항목 | 설정 |
+|------|------|
+| Pretrained | google/mobilebert-uncased |
+| Input length | 256 tokens |
+| Class 수 | 3개 또는 2개 실험을 수행했다. |
+| Optimizer | AdamW (lr=2e-5)를 사용했다. |
+| Batch size | 8 |
+| Epochs | 4 (3-class) / 10 (2-class) |
 
-추출 비율
+### 2진 분류 성능 예시
 
-전체의 약 4%, 3,000건 샘플링 (Positive/Negative 균형 유지)
+| Epoch | Train Loss | Val Accuracy |
+|-------|------------|---------------|
+|   1   | 0.6228     | 0.7733        |
+|   2   | 0.3996     | 0.8400        |
+|   3   | 0.2624     | **0.8533** ✅ |
 
-분포 유지
-
-클래스 균형 (stratify), 비율 유지한 학습/검증 분할 (80:20)
-
-이러한 방식은 전체 데이터의 감정 분포를 반영하면서도 일반화 성능을 확보하는 데 효과적입니다.
-
- 🤖 MobileBERT Fine-tuning 결과
-
-모델 훈련 초기에는 Positive / Neutral / Negative의 3진 분류 방식으로 학습을 시도했으나, 중립 클래스의 의미가 애매하고 리뷰 수가 불균형한 문제가 있어 정확도가 낮게(약 50% 내외) 나왔다. 이에 따라 Positive / Negative의 2진 분류로 재구성했으며, 그 결과 성능이 85% 이상까지 향상되었다. 이진 분류는 중립값의 해석 혼동을 줄이고 더 명확한 감정 판단에 기여했다.
-
-🔧 모델 구조 및 설정
-
-Pretrained: google/mobilebert-uncased
-
-Input length: 256 tokens
-
-Class 수: 3개 또는 2개 (실험에 따라)
-
-Optimizer: AdamW (lr=2e-5)
-
-Batch size: 8
-
-Epochs: 4 (3진 분류) / 10 (이진 분류)
-
-📈 학습 성능 예시 (2진 분류 기준)
-
-Epoch
-
-Train Loss
-
-Val Accuracy
-
-1
-
-0.6228
-
-0.7733
-
-2
-
-0.3996
-
-0.8400
-
-3
-
-0.2624
-
-0.8533 ✅
 ---
 
 ## 🔍 Inference 및 분석
 
 전체 리뷰셋에 대해 감정 예측을 수행했다.  
-애니메이션별 긍정/부정 비율을 계산했고, 결과는 `top_bottom5_anime_reviews.csv`에 저장했다.
+애니메이션별 긍정/부정 비율을 계산했고, 결과는 top_bottom5_anime_reviews.csv에 저장했다.
 
 ---
 
@@ -284,8 +246,8 @@ Val Accuracy
 
 - [MobileBERT on HuggingFace](https://huggingface.co/google/mobilebert-uncased)  
 - [deep_translator 패키지](https://pypi.org/project/deep-translator/)  
-- `anime.py`: 병렬 번역 처리 코드  
-- 시각화 도구: `matplotlib`, `seaborn`
+- anime.py: 병렬 번역 처리 코드  
+- 시각화 도구: matplotlib, seaborn
 
 ---
 
