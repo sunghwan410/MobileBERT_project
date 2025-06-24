@@ -176,7 +176,7 @@ Google Translator API는 쿼터 제한이 있어 딜레이가 발생할 수 있�
 4. **Vampire Holmes (뱀파이어 홈즈)**  
 5. **Boku no Pico (보쿠 노 피코)**
 ---
-### 긍정 Top5 순서대로 시각화<a href='https://ifh.cc/v-gzBAFk' target='_blank'><img src='https://ifh.cc/g/gzBAFk.png' border='0'></a>   ### 부정 Top 5 순서대로 시각화  <a href='https://ifh.cc/v-aS7mA2' target='_blank'><img src='https://ifh.cc/g/aS7mA2.png' border='0'></a>
+### 긍정 부정 Top5 순서대로 시각화<a href='https://ifh.cc/v-gzBAFk' target='_blank'><img src='https://ifh.cc/g/gzBAFk.png' border='0'></a>   <a href='https://ifh.cc/v-aS7mA2' target='_blank'><img src='https://ifh.cc/g/aS7mA2.png' border='0'></a>
 
 ---
 ### ✅ 긍정 비율 기준 Top 5 애니 설명
