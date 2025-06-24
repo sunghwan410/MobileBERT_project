@@ -261,13 +261,9 @@ Neutral 클래스는 감정 경계가 모호하고 데이터 분포도 불균형
 ---
 
 ## 🔗 참고 링크
-
+- https://www.kaggle.com/datasets/theodaimones888/russian-anime-reviews-dataset
 - [MobileBERT on HuggingFace](https://huggingface.co/google/mobilebert-uncased)  
 - [deep_translator 패키지](https://pypi.org/project/deep-translator/)  
 - anime.py: 병렬 번역 처리 코드  
 - 시각화 도구: matplotlib, seaborn
 
----
-
-📢 리뷰 기반 감정 분석은 사용자 만족도와 직결된다.  
-🎯 AI 기반 감정 분석 시스템은 이제 선택이 아닌 필수이다.
