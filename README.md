@@ -178,7 +178,7 @@ Google Translator API는 쿼터 제한이 있어 딜레이가 발생할 수 있�
 ---
 <a href='https://ifh.cc/v-gzBAFk' target='_blank'><img src='https://ifh.cc/g/gzBAFk.png' border='0'></a>   <a href='https://ifh.cc/v-aS7mA2' target='_blank'><img src='https://ifh.cc/g/aS7mA2.png' border='0'></a>
 
-왼쪽(긍정 Top5) 그래프와 오른쪽(부정 Top5)그래프는 위에 설명한 Top5의 애니 순서대로 긍부정 표를 시각화 하여 나타낸 것이다.
+왼쪽(긍정 Top5) 그래프와 오른쪽(부정 Top5)그래프는 위에 설명한 애니 순서대로 긍부정 표를 시각화 하여 나타낸 것이다.
 
 ---
 ### ✅ 긍정 비율 기준 Top 5 애니 설명
