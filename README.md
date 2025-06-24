@@ -55,6 +55,8 @@ Google Translator API를 사용하여 리뷰 1,000건씩 74개 파일로 나눠 
 
 # 병렬 번역 함수 예시
 <a href='https://ifh.cc/v-jRh9BZ' target='_blank'><img src='https://ifh.cc/g/jRh9BZ.png' border='0'></a>
+
+
 멀티프로세싱으로 병렬 번역을 처리하여 속도를 크게 향상시켰고, 예외 처리로 안정성도 확보했다.
 
 ⏱️ 처리 성능 및 속도
